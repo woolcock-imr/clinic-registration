@@ -1,0 +1,217 @@
+<div id=toolbar__ID>
+    <a id=back__ID>Back</a>
+</div>
+<section>
+	<form id=F__ID>
+		<div style='padding:15px 32px 15px 32px;margin-top:50px;margin-left:auto;margin-right:auto;width:600px; background-color:#069;color:#fff;text-align:center;font-size:30px;'>Registration</div>
+		<div class=container__ID>
+			<ul>
+				<li>
+					<label class=label__ID>First Name</label>
+					<div><input id=First_Name__ID /></div>
+				</li>
+				<li>
+					<label class=label__ID>Last Name</label>
+					<div><input id=Last_Name__ID /></div>
+				</li>
+				<li>
+					<label class=label__ID>Phone Number</label>
+					<div><input id=Phone_Number__ID /></div>
+				</li>
+				<li>
+					<label class=label__ID>Email</label>
+					<div><input id=Email__ID /></div>
+				</li>
+				<li>
+					<label class=label__ID>Postcode</label>
+					<div><input id=Postcode__ID /></div>
+				</li>
+			</ul>
+			<div>
+				<br>
+				<br>
+				<a id=submit__ID class=btn__ID>Submit</a>
+			</div>
+		</div>
+	</form>
+</section>
+<script>
+    function F__ID(){
+        //-------------------------------------
+		VmInclude:__PARTS__/toolbar/back.js
+        VmInclude:__PARTS__/style/ease-in-out.2.js
+        //-------------------------------------
+		var _mlist=$vm.module_list;
+		var _mobj=$vm.vm['__ID'];
+		var _sys='';
+		var _config='';
+		var _ids='';
+		if(_mobj.op!=undefined && _mobj.op.sys!=undefined){
+			_sys=_mobj.op.sys;
+			if(_sys.config!=undefined){
+				_config=_sys.config;
+				if(_config.module_ids!=undefined){
+					_ids=_config.module_ids;
+				}
+			}
+		}
+		//-----------------------------------------------
+		var _db_pid=_mlist[_ids['registration']].table_id
+		var questionnaire_participant_pid='200111779';
+		var questionnaire_participant_setup_pid='20011178';
+		//-----------------------------------------------
+		$('#D__ID').on('load',function(){
+            $('#F__ID')[0].reset();
+        })
+        //-------------------------------------
+		var Exclude=0;
+        $('#submit__ID').on('click',function(){
+			//-------------------------------------
+			//validation
+			if($('#First_Name__ID').val()===''){    $vm.alert("First name is compulsory");    return;            }
+            if($('#Last_Name__ID').val()===''){     $vm.alert("Last name is compulsory");     return;            }
+			if($('#Email__ID').val()===''){         $vm.alert("Email is compulsory");         return;            }
+			var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+            if(re.test($('#Email__ID').val())===false){
+                $vm.alert("Invalid email format");
+                return;
+            }
+			//-------------------------------------
+            var record={}
+			record.First_Name=$('#First_Name__ID').val();
+            record.Last_Name=$('#Last_Name__ID').val();
+            record.Phone=$('#Phone__ID').val();
+            record.Email=$('#Email__ID').val();
+			record.Postcode=$('#Postcode__ID').val();
+
+			var dbv={};
+            dbv.S1=$('#Email__ID').val();
+            dbv.S2=$('#Email__ID').val();
+            var req={cmd:"s1_s2_unique_add_record",db_pid:_db_pid,data:record,dbv:dbv};
+            $VmAPI.request({data:req,callback:function(res){
+				if(res.ret=='-1'){
+					$vm.alert('The email already exists');
+					return;
+				}
+				//create participant, setup record, send email and redirect to thanks page
+				create_questionnaire_participant_record(res);
+            }});
+		})
+		//-------------------------------------
+		var create_questionnaire_participant_record=function(res){
+            var registration_id=res.uid;
+            var record={Registration_ID:registration_id};
+            var dbv={S1:registration_id,S2:registration_id};
+			var req={cmd:"s1_s2_unique_add_record",db_pid:questionnaire_participant_pid,data:record,dbv:dbv};
+            $VmAPI.request({data:req,callback:function(res2){
+				if(res2.ret=='-1'){
+					$vm.alert('The registration id already exists');
+					return;
+				}
+                create_questionnaire_participant_setup_record(res2);
+            }})
+        }
+        //-------------------------------------
+        var create_questionnaire_participant_setup_record=function(res2){
+			var participant_uid=res2.uid
+            var username=participant_uid+"-"+questionnaire_participant_setup_pid;
+            var password=$vm.vm_password(8,false);
+			var List="20011175,20011176";
+            var record={Login_ID:username,Password:password,List:List};
+            var dbv={PUID:participant_uid,S1:username,S2:username,S3:password};
+            var req={cmd:"s1_s2_unique_add_record",db_pid:questionnaire_participant_setup_pid,data:record,dbv:dbv};
+            $VmAPI.request({data:req,callback:function(res3){
+				if(res3.ret=='-1'){
+					$vm.alert('The setup record already exists');
+					return;
+				}
+                send_email(username,password);
+            }})
+        }
+        //-------------------------------------
+        var send_email=function(username,password){
+            var From_Address="nightstudy@woolcock.org.au";
+            var From_Name="Woolcock Institute of Medical Research";
+            var To=$('#Email__ID').val();
+            var Title="Powersleep study registration";
+            var Body="Thank you for registering your interest in our research on powersleep study. To get started, please complete our online questionnaire which will allow us to assess whether you may be a suitable participant in this study. Simply click on the website link below and enter the provided Username and Password:<br />"
+    		Body+="&nbsp;<br />"
+    		Body+="&nbsp;<br />";
+            Body+="Website: https://woolcock-imr.github.io/online-questionnaire/index.html<br>";
+    		Body+="Username: "+username+"<br>";
+    		Body+="Password: "+password+"<br>";
+    		Body+="&nbsp;<br />"
+    		Body+=" If you are be unable to complete the questionnaire today, your answers will be saved and you can use the login details above to continue the questionnaire"
+        	Body+="<br>If you have any questions about completing our questionnaire, please email clinic@woolcock.org.au"
+    		Body+="&nbsp;<br />"
+    		Body+="&nbsp;<br />"
+    		$VmAPI.request({data:{cmd:'send_email',From_Address:From_Address,From_Name:From_Name,To:To,Title:Title,Body:Body},callback:function(res){
+				var module_id=_ids["thanks"];
+				$vm.load_module_by_name(module_id,$vm.root_layout_content_slot,{
+					mobj:_mobj,
+					sys:_sys,
+				})
+            }})
+        }
+		//-------------------------------------
+    }
+</script>
+<style>
+	VmInclude:__PARTS__/toolbar/toolbar.css
+    VmInclude:__PARTS__/style/ease-in-out.2.css
+	.container__ID{
+		width:600px;
+		padding-top:30px;
+		padding-left:30px;
+		padding-right:30px;
+		padding-bottom:50px;
+		margin-left: auto;
+		margin-right: auto;
+		border: 2px solid #069;
+	}
+	.container__ID ul{
+		list-style-type: none;
+		padding-left:0px;
+	}
+	.container__ID ul li{
+		margin: 0;
+	    padding: 6px 1% 9px 1%;
+	    clear: both;
+	    position: relative;
+	    transition: background-color 350ms ease-out;
+	}
+	.container__ID ul li:hover{
+		background-color: #fff7c0;
+	}
+	.label__ID{
+		margin-bottom: 5px;
+		display:block;
+	}
+	.btn__ID {
+	  background: #3498db;
+	  background-image: -webkit-linear-gradient(top, #3498db, #2980b9);
+	  background-image: -moz-linear-gradient(top, #3498db, #2980b9);
+	  background-image: -ms-linear-gradient(top, #3498db, #2980b9);
+	  background-image: -o-linear-gradient(top, #3498db, #2980b9);
+	  background-image: linear-gradient(to bottom, #3498db, #2980b9);
+	  -webkit-border-radius: 5;
+	  -moz-border-radius: 5;
+	  border-radius: 5px;
+	  font-family: Arial;
+	  color: #ffffff;
+	  font-size: 20px;
+	  padding: 10px 20px 10px 20px;
+	  text-decoration: none;
+	  cursor: pointer;
+	}
+
+	.btn__ID:hover {
+	  background: #3cb0fd;
+	  background-image: -webkit-linear-gradient(top, #3cb0fd, #3498db);
+	  background-image: -moz-linear-gradient(top, #3cb0fd, #3498db);
+	  background-image: -ms-linear-gradient(top, #3cb0fd, #3498db);
+	  background-image: -o-linear-gradient(top, #3cb0fd, #3498db);
+	  background-image: linear-gradient(to bottom, #3cb0fd, #3498db);
+	  text-decoration: none;
+	}
+</style>
