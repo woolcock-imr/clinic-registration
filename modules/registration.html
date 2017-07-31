@@ -1,39 +1,100 @@
 <div id=toolbar__ID>
     <a id=back__ID>Back</a>
 </div>
-<section>
-	<form id=F__ID>
-		<div style='padding:15px 32px 15px 32px;margin-top:50px;margin-left:auto;margin-right:auto;width:600px; background-color:#069;color:#fff;text-align:center;font-size:30px;'>Registration</div>
-		<div class=container__ID>
-			<ul>
-				<li>
-					<label class=label__ID>First Name</label>
-					<div><input id=First_Name__ID /></div>
-				</li>
-				<li>
-					<label class=label__ID>Last Name</label>
-					<div><input id=Last_Name__ID /></div>
-				</li>
-				<li>
-					<label class=label__ID>Phone Number</label>
-					<div><input id=Phone_Number__ID /></div>
-				</li>
-				<li>
-					<label class=label__ID>Email</label>
-					<div><input id=Email__ID /></div>
-				</li>
-				<li>
-					<label class=label__ID>Postcode</label>
-					<div><input id=Postcode__ID /></div>
-				</li>
-			</ul>
-			<div>
-				<br>
-				<br>
-				<a id=submit__ID class=btn__ID>Submit</a>
-			</div>
-		</div>
-	</form>
+<section class="w3s">
+    <form id=F__ID class="w3-padding-0 w3-margin-0 ">
+        <div class="w3-container w3-content w3-row " style="max-width:600px;background-image:url('__BASE__/woolcock-imr/woolcock_images/empty.gif');background-repeat: no-repeat; " >
+            <div class="w3-center w3-padding">
+                <h2 class="w3-xxlarge">Woolcock Clinics Registration</h2>
+            </div>
+            <div class="w3-container">
+                <div class="w3-half">
+                    <span class="w3-padding">First Name</span>
+                    <div class="w3-center w3-padding">
+                        <input type="text" class="w3-input w3-border" id="First_Name__ID" name="First_Name__ID" placeholder="First Name">
+                    </div>
+                </div>
+                <div class="w3-half ">
+                    <span class="w3-padding">Last Name</span>
+                    <div class="w3-center w3-padding">
+                        <input type="text" class="w3-input w3-border" id="Last_Name__ID" name="Last_Name__ID"  placeholder="Last Name">
+                    </div>
+                </div>
+            </div>
+            <div class="w3-container">
+                <div class="w3-half">
+                    <span class="w3-padding">Date of birth</span>
+                    <div class="w3-center w3-padding">
+                        <input type="text" class="w3-input w3-border" id="DOB__ID" name="DOB__ID" placeholder="Date of birth">
+                    </div>
+                </div>
+                <div class="w3-half">
+                    <span class="w3-padding">Gender</span>
+                    <div class="w3-center w3-padding">
+                        <select class="w3-input" id=Gender__ID Name=Gender__ID placeholder="Gender">
+                            <option >...</option>
+                            <option >Male</option>
+                            <option >Female</option>
+                            <option >Indeterminate/Intersex/Unspecified</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="w3-padding">
+                <span class="w3-padding">Address</span>
+                <div class="w3-center w3-padding">
+                    <textarea class="w3-input w3-border" id=Address__ID name="Address__ID" placeholder="Address"></textarea>
+                </div>
+            </div>
+            <div class="w3-container">
+                <div class="w3-half">
+                    <span class="w3-padding">Suburb/Town</span>
+                    <div class="w3-center w3-padding">
+                        <input type="text" class="w3-input w3-border" id=Suburb__ID name="Suburb__ID"  placeholder="Suburb/Town">
+                    </div>
+                </div>
+                <div class="w3-half">
+                    <span class="w3-padding">Postcode</span>
+                    <div class="w3-center w3-padding">
+                        <input type="text" class="w3-input w3-border" id=Postcode__ID name="Postcode__ID" placeholder="Postcode">
+                    </div>
+                </div>
+            </div>
+            <div class="w3-container">
+                <div class="w3-half">
+                    <span class="w3-padding">Phone</span>
+                    <div class="w3-center w3-padding">
+                        <input type="text" class="w3-input w3-border" id=Phone__ID name="Phone__ID" placeholder="Phone">
+                    </div>
+                </div>
+                <div class="w3-half">
+                    <span class="w3-padding">Email</span>
+                    <div class="w3-center w3-padding">
+                        <input type="text" class="w3-input w3-border" id=Email__ID name="Email__ID" placeholder="Email">
+                    </div>
+                </div>
+            </div>
+            <div class="w3-padding">
+                <span class="w3-padding">Emergency contact</span>
+                <div class="w3-center w3-padding">
+                    <input type="text" class="w3-input w3-border" id="Emergency_contact__ID" name="Emergency_contact__ID"  placeholder="Emergency contact">
+                </div>
+            </div>
+            <div class="w3-padding">
+                <span class="w3-padding">Emergency contact number</span>
+                <div class="w3-center w3-padding">
+                    <input type="text" class="w3-input w3-border" id="Emergency_contact_number__ID" name="Emergency_contact_number__ID" placeholder="Emergency contact number">
+                </div>
+            </div>
+            <div class="w3-center w3-padding">
+                <input class="w3-button w3-blue w3-round-large" type=btn id=submit__ID value="Submit" />
+            </div>
+            <div class="w3-center w3-padding">
+                <img class="" src="__BASE__/woolcock-imr/woolcock_images/logo.jpg" style='width:500px'></img>
+            </div>
+
+        </div>
+    </form>
 </section>
 <script>
     function F__ID(){
@@ -80,9 +141,15 @@
             var record={}
 			record.First_Name=$('#First_Name__ID').val();
             record.Last_Name=$('#Last_Name__ID').val();
+            record.Gender=$('#Gender__ID').val();
+            record.DOB=$('#DOB__ID').val();
+            record.Address=$('#Address__ID').val();
+            record.Suburb=$('#Suburb__ID').val();
+            record.Postcode=$('#Postcode__ID').val();
             record.Phone=$('#Phone__ID').val();
             record.Email=$('#Email__ID').val();
-			record.Postcode=$('#Postcode__ID').val();
+            record.Emergency_contact=$('#Emergency_contact__ID').val();
+            record.Emergency_contact_number=$('#Emergency_contact_number__ID').val();
 
 			var dbv={};
             dbv.S1=$('#Email__ID').val();
@@ -130,11 +197,11 @@
         }
         //-------------------------------------
         var send_email=function(username,password){
-            var From_Address="nightstudy@woolcock.org.au";
+            var From_Address="woolcock.reception@woolcock.org.au";
             var From_Name="Woolcock Institute of Medical Research";
             var To=$('#Email__ID').val();
-            var Title="Powersleep study registration";
-            var Body="Thank you for registering your interest in our research on powersleep study. To get started, please complete our online questionnaire which will allow us to assess whether you may be a suitable participant in this study. Simply click on the website link below and enter the provided Username and Password:<br />"
+            var Title="Wooolcock Clinics Registration";
+            var Body="Thank you for registering. Please complete our online questionnaire. Simply click on the website link below and enter the provided Username and Password:<br />"
     		Body+="&nbsp;<br />"
     		Body+="&nbsp;<br />";
             Body+="Website: https://woolcock-imr.github.io/online-questionnaire/index.html<br>";
@@ -142,7 +209,7 @@
     		Body+="Password: "+password+"<br>";
     		Body+="&nbsp;<br />"
     		Body+=" If you are be unable to complete the questionnaire today, your answers will be saved and you can use the login details above to continue the questionnaire"
-        	Body+="<br>If you have any questions about completing our questionnaire, please email clinic@woolcock.org.au"
+        	Body+="<br>If you have any questions about completing our questionnaire, please email woolcock.reception@woolcock.org.au"
     		Body+="&nbsp;<br />"
     		Body+="&nbsp;<br />"
     		$VmAPI.request({data:{cmd:'send_email',From_Address:From_Address,From_Name:From_Name,To:To,Title:Title,Body:Body},callback:function(res){
@@ -158,60 +225,8 @@
 </script>
 <style>
 	VmInclude:__PARTS__/toolbar/toolbar.css
-    VmInclude:__PARTS__/style/ease-in-out.2.css
-	.container__ID{
-		width:600px;
-		padding-top:30px;
-		padding-left:30px;
-		padding-right:30px;
-		padding-bottom:50px;
-		margin-left: auto;
-		margin-right: auto;
-		border: 2px solid #069;
-	}
-	.container__ID ul{
-		list-style-type: none;
-		padding-left:0px;
-	}
-	.container__ID ul li{
-		margin: 0;
-	    padding: 6px 1% 9px 1%;
-	    clear: both;
-	    position: relative;
-	    transition: background-color 350ms ease-out;
-	}
-	.container__ID ul li:hover{
-		background-color: #fff7c0;
-	}
-	.label__ID{
-		margin-bottom: 5px;
-		display:block;
-	}
-	.btn__ID {
-	  background: #3498db;
-	  background-image: -webkit-linear-gradient(top, #3498db, #2980b9);
-	  background-image: -moz-linear-gradient(top, #3498db, #2980b9);
-	  background-image: -ms-linear-gradient(top, #3498db, #2980b9);
-	  background-image: -o-linear-gradient(top, #3498db, #2980b9);
-	  background-image: linear-gradient(to bottom, #3498db, #2980b9);
-	  -webkit-border-radius: 5;
-	  -moz-border-radius: 5;
-	  border-radius: 5px;
-	  font-family: Arial;
-	  color: #ffffff;
-	  font-size: 20px;
-	  padding: 10px 20px 10px 20px;
-	  text-decoration: none;
-	  cursor: pointer;
-	}
-
-	.btn__ID:hover {
-	  background: #3cb0fd;
-	  background-image: -webkit-linear-gradient(top, #3cb0fd, #3498db);
-	  background-image: -moz-linear-gradient(top, #3cb0fd, #3498db);
-	  background-image: -ms-linear-gradient(top, #3cb0fd, #3498db);
-	  background-image: -o-linear-gradient(top, #3cb0fd, #3498db);
-	  background-image: linear-gradient(to bottom, #3cb0fd, #3498db);
-	  text-decoration: none;
-	}
+    VmInclude:__HOST__/css/w3.css
+    .rowthree,.rowtwo,.rowone{
+        display: inline-block;
+    }
 </style>
