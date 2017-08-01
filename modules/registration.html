@@ -161,10 +161,13 @@
 					return;
 				}
 				//create participant, setup record, send email and redirect to thanks page
-				create_questionnaire_participant_record(res);
+				//create_questionnaire_participant_record(res);
+
+				create_questionnaire_participant_setup_record(res);
             }});
 		})
 		//-------------------------------------
+		/*
 		var create_questionnaire_participant_record=function(res){
             var registration_id=res.uid;
             var record={Registration_ID:registration_id};
@@ -178,9 +181,10 @@
                 create_questionnaire_participant_setup_record(res2);
             }})
         }
+		*/
         //-------------------------------------
-        var create_questionnaire_participant_setup_record=function(res2){
-			var participant_uid=res2.uid
+        var create_questionnaire_participant_setup_record=function(res){
+			var participant_uid=res.uid
             var username=participant_uid+"-"+questionnaire_participant_setup_pid;
             var password=$vm.vm_password(8,false);
 			var List="20011175,20011176";
