@@ -172,7 +172,7 @@
 			var req={cmd:"s1_s2_unique_add_record",db_pid:questionnaire_participant_pid,data:record,dbv:dbv};
             $VmAPI.request({data:req,callback:function(res2){
 				if(res2.ret=='-1'){
-					$vm.alert('The registration id already exists');
+					$vm.alert('The email already exists');
 					return;
 				}
                 create_questionnaire_participant_setup_record(res2);
@@ -204,7 +204,7 @@
             var Body="Thank you for registering. Please complete our online questionnaire. Simply click on the website link below and enter the provided Username and Password:<br />"
     		Body+="&nbsp;<br />"
     		Body+="&nbsp;<br />";
-            Body+="Website: https://woolcock-imr.github.io/online-questionnaire/index.html<br>";
+            Body+="Website: https://wool"+"cock-imr.github.io/online-questionnaire/index.html<br>";
     		Body+="Username: "+username+"<br>";
     		Body+="Password: "+password+"<br>";
     		Body+="&nbsp;<br />"
